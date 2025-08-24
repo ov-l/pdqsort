@@ -25,7 +25,9 @@ if (PDQSORT_INSTALL)
     include(CMakePackageConfigHelpers)
 
     # Install the header file
-    install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/pdqsort.h"
+    install(FILES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/pdqsort.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pdqsort_int.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
     # Install the license file
