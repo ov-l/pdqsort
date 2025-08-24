@@ -116,7 +116,6 @@
 #include <utility>
 template <typename C>
 concept SortableContainer = requires(C c, std::size_t i, std::size_t j, typename C::record_type rec) {
-  { c.size() } -> std::same_as<std::size_t>;
   { c.get_key(i) };
   { c.get_record(i) } -> std::same_as<typename C::record_type>;
   { c.set_record(i, rec) } -> std::same_as<void>;
@@ -873,6 +872,7 @@ void pdqsort_loop(std::size_t first, std::size_t last, Container& c, int bad_all
  */
 template <SortableContainer Container>
 void pdqsort_soa(Container& container)
+  requires requires { container.size(); }
 {
   if (container.size() <= 1)
     return;
@@ -898,8 +898,6 @@ void pdqsort_soa(Container& container)
 template <SortableContainer Container>
 void pdqsort_soa(std::size_t first, std::size_t last, Container& container)
 {
-  if (first >= last || last > container.size())
-    return;
   using pdqsort_soa_detail::can_use_branchless;
   constexpr bool branchless  = pdqsort_soa_detail::can_use_branchless<Container>();
   int            bad_allowed = pdqsort_soa_detail::log2_upto(last - first);
